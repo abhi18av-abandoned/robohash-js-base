@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
+import axios from 'axios';
 
 //=============================
 // constants
@@ -28,6 +29,10 @@ import React from "react";
 // services
 //=============================
 
+export const getNameHash = async () => {
+    return await axios.get("https://robohash.org/abhinav");
+};
+
 //=============================
 // selectors
 //=============================
@@ -41,12 +46,20 @@ import React from "react";
 //=============================
 
 
-
 export const App = () => {
-  return (
+
+    const [url, setUrl] = useState('');
+
+    useEffect(() => {
+        getNameHash().then(({config}) => setUrl(config.url));
+    }, []);
+
+    return (
     <>
       <div className="App">
-        <header className="App-header">Master React</header>
+          <header className="App-header">RoboHash</header>
+          <p>{url}</p>
+          <img src={url} alt="RoboHash image"/>
       </div>
     </>
   );
